@@ -487,8 +487,8 @@ IGL_INLINE void Renderer::resize(GLFWwindow* window,int w, int h)
 		if (A_TREE != nullptr && B_TREE != nullptr) {
 			if (A_TREE->is_leaf() && B_TREE->is_leaf()) {
 				if (!is_separate(A_TREE->m_box, B_TREE->m_box)) {
-					scn->draw_box(A_TREE->m_box, scn->last_picked);
-					scn->draw_box(B_TREE->m_box, !scn->last_picked);
+					scn->draw_box(A_TREE->m_box, scn->last_picked, false, Eigen::RowVector3d (1,1,1));
+					scn->draw_box(B_TREE->m_box, !scn->last_picked, false, Eigen::RowVector3d (1,1,1));
 					return true;
 				}
 				else {
@@ -509,6 +509,7 @@ IGL_INLINE void Renderer::resize(GLFWwindow* window,int w, int h)
 		
 		
 	}
+
 
 	//IGL_INLINE void Viewer::select_hovered_core()
 	//{

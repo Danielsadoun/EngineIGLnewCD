@@ -27,6 +27,9 @@ public:
 	void SetCenterOfRotation(Eigen::Vector3f newCenter);
 	Eigen::Vector3f getCenterOfRotation();
 	Eigen::Matrix3f GetRotation()const { return Tout.rotation().matrix();}
+	Eigen::Transform<float, 3, Eigen::Affine> get_Tout() { return Tout; }
+	Eigen::Transform<float, 3, Eigen::Affine> get_Tin() { return Tin; }
+	void set_T(Eigen::Transform<float, 3, Eigen::Affine> Tout, Eigen::Transform<float, 3, Eigen::Affine> Tin) { Tout = Tout; Tin = Tin; }
 
 	virtual ~Movable() {}
 

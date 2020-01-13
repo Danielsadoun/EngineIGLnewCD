@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 		std::string line;
 		while (getline(file, line)) {
 			viewer.load_mesh_from_file(line);
-			viewer.draw_box(viewer.tree_list[viewer.selected_data_index].m_box, viewer.selected_data_index);
+			viewer.draw_box(viewer.tree_list[viewer.selected_data_index].m_box, viewer.selected_data_index, false, Eigen::RowVector3d(0,1,0));
 			renderer.core(viewer.selected_data_index).toggle(viewer.data(viewer.selected_data_index).show_lines);
 		}
 		file.close();

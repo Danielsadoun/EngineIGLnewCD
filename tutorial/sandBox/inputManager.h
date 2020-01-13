@@ -245,6 +245,15 @@ static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int act
 			break;
 		case ' ':
 			//get_close to the ball
+			
+
+			if (!rndr->GetScene()->anim) {
+				for (int i = 0; i < 2; i++) {
+					scn->draw_box(scn->tree_list[i].m_box, i, true, Eigen::RowVector3d(0,1,0));
+				}
+				
+				
+			}
 			rndr->GetScene()->anim = !rndr->GetScene()->anim;
 			/*if (!rndr->GetScene()->anim) {
 				rndr->set_rotation();

@@ -119,7 +119,7 @@ namespace glfw
 	//simplification function
 	bool simplificate(double edges_to_delete);
 	void pos_cylinder();
-	void draw_box(Eigen::AlignedBox<double, 3> box, int id);
+	void draw_box(Eigen::AlignedBox<double, 3> box, int id, bool set, Eigen::RowVector3d color);
 
 public:
     //////////////////////

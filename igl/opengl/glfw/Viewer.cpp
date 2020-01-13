@@ -489,7 +489,7 @@ namespace glfw
 	  }  
   }
 
-  void Viewer::draw_box(Eigen::AlignedBox<double, 3> box, int id) {
+  void Viewer::draw_box(Eigen::AlignedBox<double, 3> box, int id, bool set, Eigen::RowVector3d color) {
 	  //data().show_overlay_depth = false;
 	  data().point_size = 10;
 	  data().line_width = 3;
@@ -503,36 +503,55 @@ namespace glfw
 		  box.corner(box.TopRightCeil)(0), box.corner(box.TopRightCeil)(1), box.corner(box.TopRightCeil)(2),
 		  box.corner(box.TopLeftFloor)(0), box.corner(box.TopLeftFloor)(1), box.corner(box.TopLeftFloor)(2),
 		  box.corner(box.TopRightFloor)(0), box.corner(box.TopRightFloor)(1), box.corner(box.TopRightFloor)(2);
-	  data(id).add_points(points, Eigen::RowVector3d(1, 0, 0));
-	  Eigen::MatrixXd p1(12, 3);
-	  p1 << points.row(3)(0), points.row(3)(1), points.row(3)(2),//BRF
-		  points.row(3)(0), points.row(3)(1), points.row(3)(2),//BRF
-		  points.row(3)(0), points.row(3)(1), points.row(3)(2),//BRF
-		  points.row(6)(0), points.row(6)(1), points.row(6)(2),//TLF
-		  points.row(6)(0), points.row(6)(1), points.row(6)(2),//TLF
-		  points.row(6)(0), points.row(6)(1), points.row(6)(2),//TLF
-		  points.row(0)(0), points.row(0)(1), points.row(0)(2),//BLC
-		  points.row(0)(0), points.row(0)(1), points.row(0)(2),//BLC
-		  points.row(0)(0), points.row(0)(1), points.row(0)(2),//BLC
-		  points.row(5)(0), points.row(5)(1), points.row(5)(2),//TRC
-		  points.row(5)(0), points.row(5)(1), points.row(5)(2),//TRC
-		  points.row(5)(0), points.row(5)(1), points.row(5)(2);//TRC
+	 // data(id).add_points(points, Eigen::RowVector3d(1, 0, 0));
+	  
+	  if (set) {
+		  Eigen::MatrixXi edges(12, 2);
+		  edges << 0, 1,
+			  0, 2,
+			  1, 3,
+			  2, 3,
+			  4, 5,
+			  4, 6,
+			  5, 7,
+			  6, 7,
+			  0, 4,
+			  3, 7,
+			  1, 5,
+			  2, 6;
+		  data(id).set_edges(points, edges, color);
+	  }
+	  else {
+		  Eigen::MatrixXd p1(12, 3);
+		  p1 << points.row(3)(0), points.row(3)(1), points.row(3)(2),//BRF
+			  points.row(3)(0), points.row(3)(1), points.row(3)(2),//BRF
+			  points.row(3)(0), points.row(3)(1), points.row(3)(2),//BRF
+			  points.row(6)(0), points.row(6)(1), points.row(6)(2),//TLF
+			  points.row(6)(0), points.row(6)(1), points.row(6)(2),//TLF
+			  points.row(6)(0), points.row(6)(1), points.row(6)(2),//TLF
+			  points.row(0)(0), points.row(0)(1), points.row(0)(2),//BLC
+			  points.row(0)(0), points.row(0)(1), points.row(0)(2),//BLC
+			  points.row(0)(0), points.row(0)(1), points.row(0)(2),//BLC
+			  points.row(5)(0), points.row(5)(1), points.row(5)(2),//TRC
+			  points.row(5)(0), points.row(5)(1), points.row(5)(2),//TRC
+			  points.row(5)(0), points.row(5)(1), points.row(5)(2);//TRC
 
-	  Eigen::MatrixXd p2(12, 3);
-	  p2 << points.row(7)(0), points.row(7)(1), points.row(7)(2),//TRF
-		  points.row(1)(0), points.row(1)(1), points.row(1)(2),//BRC
-		  points.row(2)(0), points.row(2)(1), points.row(2)(2),//BLF
-		  points.row(7)(0), points.row(7)(1), points.row(7)(2),//TRF
-		  points.row(4)(0), points.row(4)(1), points.row(4)(2),//TLC
-		  points.row(2)(0), points.row(2)(1), points.row(2)(2),//BLF
-		  points.row(2)(0), points.row(2)(1), points.row(2)(2),//BLF
-		  points.row(1)(0), points.row(1)(1), points.row(1)(2),//BRC
-		  points.row(4)(0), points.row(4)(1), points.row(4)(2),//TLC
-		  points.row(4)(0), points.row(4)(1), points.row(4)(2),//TLC
-		  points.row(1)(0), points.row(1)(1), points.row(1)(2),//BRC
-		  points.row(7)(0), points.row(7)(1), points.row(7)(2);//TRF
+		  Eigen::MatrixXd p2(12, 3);
+		  p2 << points.row(7)(0), points.row(7)(1), points.row(7)(2),//TRF
+			  points.row(1)(0), points.row(1)(1), points.row(1)(2),//BRC
+			  points.row(2)(0), points.row(2)(1), points.row(2)(2),//BLF
+			  points.row(7)(0), points.row(7)(1), points.row(7)(2),//TRF
+			  points.row(4)(0), points.row(4)(1), points.row(4)(2),//TLC
+			  points.row(2)(0), points.row(2)(1), points.row(2)(2),//BLF
+			  points.row(2)(0), points.row(2)(1), points.row(2)(2),//BLF
+			  points.row(1)(0), points.row(1)(1), points.row(1)(2),//BRC
+			  points.row(4)(0), points.row(4)(1), points.row(4)(2),//TLC
+			  points.row(4)(0), points.row(4)(1), points.row(4)(2),//TLC
+			  points.row(1)(0), points.row(1)(1), points.row(1)(2),//BRC
+			  points.row(7)(0), points.row(7)(1), points.row(7)(2);//TRF
 
-	  data(id).add_edges(p1, p2, Eigen::RowVector3d(1, 0, 0));
+		  data(id).add_edges(p1, p2, color);
+	  }
   }
 
   
